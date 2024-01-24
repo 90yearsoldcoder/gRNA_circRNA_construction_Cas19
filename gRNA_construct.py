@@ -78,7 +78,7 @@ def generate_gRNA_file(fasta_file_path, bed_path, output_file_path):
     for i in tqdm(range(len(fasta_lines)), desc="Processing fasta file"):
         if fasta_lines[i].startswith(">"):
             continue
-        bed_info = bed_lines[i//2].split("\t")
+        bed_info = bed_lines[i//2].strip().split("\t")
         gene_info = bed_info[0] + ":" + bed_info[1] + "-" + bed_info[2] + "(" + bed_info[3] + ")"
         RNA_gRNA_dic[gene_info] = generate_gRNA_list(fasta_lines[i].strip())
     # write to output file
