@@ -14,6 +14,9 @@ genes = df['CircRNA host gene symbol']
 chr_start_end = locations.str.extract(r'(chr[0-9XY]+):(\d+)-(\d+)')
 chr_start_end.columns = ['chrom', 'start', 'end']
 
+# Remove 'chr' prefix from the chromosome column
+chr_start_end['chrom'] = chr_start_end['chrom'].str.replace('chr', '')
+
 # Combine with gene names
 bed_data = pd.concat([chr_start_end, genes], axis=1)
 
