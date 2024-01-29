@@ -38,9 +38,10 @@ python convert_xlsx2tsv.py
 python extract_tsv2bed.py
 ```
 * We remove the row 287 which is ```chr17_ctg5_hap1:616744-618122```, since we do not have enough information about this haplotype in reference
+* One more thing is, you should add strand infomation by yourself. There is no strand info in the original form. We provide the filled bed file in ```example/circRNA.bed```
 
 ## 2. Step 1 run the command line:
-You can check the bed file at ```example/circRNA.bed``` \
+You can check the bed file at ```example/circRNA.bed```(the strand info is added additionaly) \
 **Notice**: the first col in the ```example/circRNA.bed``` is just a number instead of chr+[number]. Because the original paper was using hg37 as reference. If you are now using any higher version(hg38+), the first col should be chr + [number], which is the same with the [Example bed file above](#1prepare-data)
 ```
 (optional, if you do not have hg37 reference)
@@ -52,3 +53,7 @@ python ../gRNA_construct.py -r Homo_sapiens.GRCh37.dna.primary_assembly.fa -b ./
 ```
 
 ## 3. Step 2 compare the gRNA with paper's gRNA
+```
+python compare.py
+```
+Result will be at ```example/comparison_results.txt```
