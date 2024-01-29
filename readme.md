@@ -9,7 +9,7 @@
 # Usage
 ## 1.Prepare data
 * circRNA coordinate and its host gene name
-* Format: bed file, the first four columns are **required**
+* Format: bed file, the first four columns are **required**, and the sixth col is also required. You can fill the fifth col(score) with 0 if you do not have score information.
 * Example bed file:
 
 | |  |  |  | | |
