@@ -127,9 +127,9 @@ parser.add_argument("-d", "--delete", help="Delete fasta file after generating g
 args = parser.parse_args()
 
 # Treverse strand info in bed file. Since the gRNA is reversed RNA. file: "reversed.bed"
-reverse_bed_file(args.bed, "reversed.bed")
+reverse_bed_file(args.bed, "reversed_" + args.bed)
 # generate fasta file
-generate_fasta_file("reversed.bed", args.reference, args.fasta)
+generate_fasta_file("reversed_" + args.bed, args.reference, args.fasta)
 # generate gRNA file
 generate_gRNA_file(args.fasta, args.bed, args.output)
 if args.delete:
