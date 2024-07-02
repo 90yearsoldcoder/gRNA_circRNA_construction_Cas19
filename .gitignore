@@ -2,3 +2,4 @@ example/circRNA.fa
 example/gRNA.tsv
 example/circRNA_ori.bed
 example/comparison_results.txt
+example/reversed.bed

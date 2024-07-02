@@ -8,7 +8,7 @@ from tqdm import tqdm
 def generate_random_sequence(l: int):
     sequence = ""
     for i in range(l):
-        sequence += random.choice("ACGU")
+        sequence += random.choice("ACGT")
     return sequence
 
 # Generate scrambled sequence
@@ -53,6 +53,20 @@ def generate_gRNA_list(sequence):
     gRNA_list.append(generate_gRNA(sequence, 13, 13))
     return gRNA_list
 
+def reverse_bed_file(bed_path, reversed_bed):
+    with open(bed_path, "r") as f, open(reversed_bed, "w") as out:
+        for line in f:
+            parts = line.strip().split()
+            if len(parts) > 5:
+                # Assuming strand info is in the 6th column
+                strand = parts[5]
+                if strand == "+":
+                    parts[5] = "-"
+                elif strand == "-":
+                    parts[5] = "+"
+            out.write("\t".join(parts) + "\n")
+
+
 # Using bedtools getfasta to generate fasta file for gRNA
 # Input: path to bed file, path to fasta file, path to output file
 # help info: bedtools getfasta -fi reference.fa  -bed test.bed -fo circRNAs.fa -s -split
@@ -60,6 +74,7 @@ def generate_fasta_file(bed_path, fasta_path, fasta_file_path):
     print("Get RNA sequence(fasta) from bed file: ", end=" ")
     os.system("bedtools getfasta -fi " + fasta_path + " -bed " + bed_path + " -fo " + fasta_file_path + " -s -split")
     print("Done")
+
 
 # read in fasta file and bed file to generate gRNA, and save to output file
 # Input: path to fasta file, path to bed file, path to output file
@@ -111,8 +126,10 @@ parser.add_argument("-o", "--output", help="Path to output file", required=False
 parser.add_argument("-d", "--delete", help="Delete fasta file after generating gRNA", required=False, default=False)
 args = parser.parse_args()
 
+# Treverse strand info in bed file. Since the gRNA is reversed RNA. file: "reversed.bed"
+reverse_bed_file(args.bed, "reversed.bed")
 # generate fasta file
-generate_fasta_file(args.bed, args.reference, args.fasta)
+generate_fasta_file("reversed.bed", args.reference, args.fasta)
 # generate gRNA file
 generate_gRNA_file(args.fasta, args.bed, args.output)
 if args.delete:
